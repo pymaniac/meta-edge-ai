@@ -1,0 +1,12 @@
+# Docker build optimizations
+TMPDIR = "/build-tmp"
+SSTATE_DIR = "/build-sstate"
+BB_NUMBER_THREADS = "6"
+PARALLEL_MAKE = "-j 6"
+BB_DISKMON_WARN_DONT_CHECK_INODES = "1"
+
+# Package management
+PACKAGE_CLASSES = "package_deb"
+EXTRA_IMAGE_FEATURES += "package-management"
+
+DISTRO_FEATURES:append = " pam systemd"
