@@ -3,6 +3,6 @@
 # No FAT32 partition
 
 part u-boot --source rawcopy --sourceparams="file=imx-boot.tagged" --ondisk mmcblk --no-table --align ${IMX_BOOT_SEEK}
-part / --source rootfs --ondisk mmcblk --fstype=ext4 --label root --align 8192
+part / --source rootfs --ondisk mmcblk --fstype=ext4 --label root --align 8192 --size 2048
 
 bootloader --ptable msdos

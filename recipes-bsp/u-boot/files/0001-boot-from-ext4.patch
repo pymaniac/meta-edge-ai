@@ -1,0 +1,36 @@
+Index: git/include/configs/imx8mq_evk.h
+===================================================================
+--- git.orig/include/configs/imx8mq_evk.h
++++ git/include/configs/imx8mq_evk.h
+@@ -88,14 +88,14 @@
+ 	"bootm_size=0x10000000\0" \
+ 	"mmcdev="__stringify(CONFIG_SYS_MMC_ENV_DEV)"\0" \
+ 	"mmcpart=1\0" \
+-	"mmcroot=/dev/mmcblk1p2 rootwait rw\0" \
++	"mmcroot=/dev/mmcblk0p1 rootwait rw\0" \
+ 	"mmcautodetect=yes\0" \
+ 	"mmcargs=setenv bootargs ${jh_clk} ${mcore_clk} console=${console} root=${mmcroot}\0 " \
+-	"loadbootscript=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${bsp_script};\0" \
++	"loadbootscript=ext4load mmc ${mmcdev}:${mmcpart} ${loadaddr} /boot/${bsp_script};\0" \
+ 	"bootscript=echo Running bootscript from mmc ...; " \
+ 		"source\0" \
+-	"loadimage=fatload mmc ${mmcdev}:${mmcpart} ${loadaddr} ${image}\0" \
+-	"loadfdt=fatload mmc ${mmcdev}:${mmcpart} ${fdt_addr_r} ${fdtfile}\0" \
++	"loadimage=ext4load mmc ${mmcdev}:${mmcpart} ${loadaddr} /boot/${image}\0" \
++	"loadfdt=ext4load mmc ${mmcdev}:${mmcpart} ${fdt_addr_r} /boot/${fdtfile}\0" \
+ 	"mmcboot=echo Booting from mmc ...; " \
+ 		"run mmcargs; " \
+ 		"if test ${boot_fdt} = yes || test ${boot_fdt} = try; then " \
+Index: git/board/freescale/common/mmc.c
+===================================================================
+--- git.orig/board/freescale/common/mmc.c
++++ git/board/freescale/common/mmc.c
+@@ -41,7 +41,7 @@ void board_late_mmc_env_init(void)
+ 	env_set_ulong("mmcdev", dev_no);
+ 
+ 	/* Set mmcblk env */
+-	sprintf(mmcblk, "/dev/mmcblk%dp2 rootwait rw", mmc_map_to_kernel_blk(dev_no));
++	sprintf(mmcblk, "/dev/mmcblk%dp1 rootwait rw", mmc_map_to_kernel_blk(dev_no));
+ 	env_set("mmcroot", mmcblk);
+ 
+ 	sprintf(cmd, "mmc dev %d", dev_no);

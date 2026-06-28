@@ -15,6 +15,8 @@ IMAGE_INSTALL:append = " \
 IMAGE_INSTALL:append = " \
     openssh-sftp-server \
     openssh-sshd \
+    openssh \
+    sshfs-fuse \
 "
 
 IMAGE_INSTALL:append = " \
